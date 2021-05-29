@@ -5,7 +5,7 @@ import { DomainModule } from "./app/domain/domain.module";
 import { UsecaseModule } from "./app/usecase/usecase.module";
 import { AdapterModule } from "./app/adapter/adapter.module";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { Profile } from "./app/domain/aggregate/entities";
+import { Classroom, Experience, Profile } from "./app/domain/aggregate/entities";
 
 @Module({
 	imports: [
@@ -16,7 +16,7 @@ import { Profile } from "./app/domain/aggregate/entities";
 			username: "passnet_profile_app",
 			password: "tungduong98",
 			database: "passnet_profile_db",
-			entities: [Profile],
+			entities: [Profile, Classroom, Experience],
 			synchronize: true,
 		}),
 		DomainModule,

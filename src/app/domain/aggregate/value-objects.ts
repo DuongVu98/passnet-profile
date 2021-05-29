@@ -24,3 +24,23 @@ export class Overview {
 	@Column()
 	value: string;
 }
+
+export class ClassroomId {
+    @Column()
+    value: string;
+}
+
+export class Course {
+    @Column()
+    value: string;
+}
+
+export class Semester {
+    @Column()
+    value: string;
+}
+
+export class Description {
+    @Column()
+    value: string;
+}

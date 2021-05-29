@@ -1,7 +1,7 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
-import { Email, FullName, Overview, PhoneNumber, UserId } from "./value-objects";
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { ClassroomId, Course, Description, Email, FullName, Overview, PhoneNumber, Semester, UserId } from "./value-objects";
 
-@Entity()
+@Entity({name: "profile"})
 export class Profile {
 	@PrimaryGeneratedColumn("uuid")
 	id: string;
@@ -16,8 +16,47 @@ export class Profile {
 	phoneNumber: PhoneNumber;
 
 	@Column(() => Email, { prefix: "email" })
-	email: FullName;
+	email: Email;
 
 	@Column(() => Overview, { prefix: "overview" })
 	overview: Overview;
+
+    @OneToMany(() => Classroom, c => c.profile)
+    classrooms: Classroom[];
+
+    @OneToMany(() => Experience, e => e.profile)
+    experiences: Experience[];
+}
+
+@Entity({name: "classroom"})
+export class Classroom {
+    
+	@PrimaryGeneratedColumn("uuid")
+    id: string;
+
+    @Column(() => ClassroomId, {prefix: "classroomId"})
+    classroomId: ClassroomId;
+
+    @ManyToOne(() => Profile, p => p.classrooms)
+    profile: Profile;
+    
+}
+
+@Entity({name: "experience"})
+export class Experience {
+    
+	@PrimaryGeneratedColumn("uuid")
+    id: string;
+
+    @Column(() => ClassroomId, {prefix: "classroomId"})
+    course: Course;
+
+    @Column(() => Semester, {prefix: "semester"})
+    semester: Semester;
+
+    @Column(() => Description, {prefix: "description"})
+    description: Description;
+
+    @ManyToOne(() => Profile, p => p.experiences)
+    profile: Profile;
 }
