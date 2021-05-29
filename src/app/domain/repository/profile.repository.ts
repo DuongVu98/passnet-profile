@@ -20,16 +20,16 @@ export class ProfileEntityRepository {
 		return this.profileRepository.findOne({ userId: userId });
 	}
 
-    save(profile: Profile): Promise<Profile> {
-        return this.profileRepository.save(profile);
-    }
+	save(profile: Profile): Promise<Profile> {
+		return this.profileRepository.save(profile);
+	}
 
-    update(id: string, profile: Profile): Promise<Profile> {
-        this.profileRepository.update(id, profile);
+	update(id: string, profile: Profile): Promise<Profile> {
+		this.profileRepository.update(id, profile);
 		return this.profileRepository.findOne({ id: id });
-    }
+	}
 
-    delete(id: string): Promise<any> {
-        return this.profileRepository.delete(id);
-    }
+	delete(id: string): Promise<any> {
+		return this.profileRepository.delete(id);
+	}
 }

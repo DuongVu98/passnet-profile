@@ -17,7 +17,7 @@ export class Profile {
 
 	@Column(() => Email, { prefix: "email" })
 	email: FullName;
-    
-    @Column(() => Overview, { prefix: "overview" })
+
+	@Column(() => Overview, { prefix: "overview" })
 	overview: Overview;
 }
