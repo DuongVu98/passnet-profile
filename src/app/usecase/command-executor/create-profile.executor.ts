@@ -14,6 +14,7 @@ export class CreateProfileCommandExecutor implements CommandExecutor {
 	execute(command: BaseCommand): Promise<any> {
 		if (command instanceof CreateProfileCommand) {
 			const newProfile = Builder(Profile)
+				.id(command.aggregateId)
 				.fullName(new FullName(command.fullName))
 				.email(new Email(command.email))
 				.phoneNumber(new PhoneNumber(command.phoneNumber))
@@ -24,8 +25,10 @@ export class CreateProfileCommandExecutor implements CommandExecutor {
 				.build();
 
 			return this.profileRepository.save(newProfile).then(profile => {
-                this.logger.log(`Profile created: ${profile.id}`);
-            });
+				this.logger.log(`Profile created: ${profile.id}`);
+			});
+		} else {
+			return Promise.reject();
 		}
 	}
 }

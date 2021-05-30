@@ -6,6 +6,14 @@ import { UsecaseModule } from "./app/usecase/usecase.module";
 import { AdapterModule } from "./app/adapter/adapter.module";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { Classroom, Experience, Profile } from "./app/domain/aggregate/entities";
+import { DefaultNamingStrategy, NamingStrategyInterface } from "typeorm";
+import { snakeCase } from "lodash";
+
+export class CustomNamingStrategy extends DefaultNamingStrategy implements NamingStrategyInterface {
+	columnName(propertyName: string, customName: string, embeddedPrefixes: string[]): string {
+		return snakeCase(embeddedPrefixes.concat(customName ? customName : propertyName).join("_"));
+	}
+}
 
 @Module({
 	imports: [
@@ -18,6 +26,7 @@ import { Classroom, Experience, Profile } from "./app/domain/aggregate/entities"
 			database: "passnet_profile_db",
 			entities: [Profile, Classroom, Experience],
 			synchronize: true,
+			namingStrategy: new CustomNamingStrategy(),
 		}),
 		DomainModule,
 		UsecaseModule,
