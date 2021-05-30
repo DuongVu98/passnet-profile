@@ -24,12 +24,14 @@ export class Profile {
 	@OneToMany(
 		() => Classroom,
 		c => c.profile,
+		{ cascade: ["insert", "remove", "update"] },
 	)
 	classrooms: Classroom[];
 
 	@OneToMany(
 		() => Experience,
 		e => e.profile,
+		{ cascade: ["insert", "remove", "update"] },
 	)
 	experiences: Experience[];
 
