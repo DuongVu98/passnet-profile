@@ -1,5 +1,5 @@
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { ClassroomId, Course, Description, Email, FullName, Overview, PhoneNumber, Semester, UserId } from "./value-objects";
+import { ClassroomId, Course, Description, Email, FullName, Overview, PhoneNumber, RoleMember, Semester, UserId } from "./value-objects";
 
 @Entity({name: "profile"})
 export class Profile {
@@ -36,6 +36,9 @@ export class Classroom {
 
     @Column(() => ClassroomId, {prefix: "classroomId"})
     classroomId: ClassroomId;
+
+    @Column(() => RoleMember, {prefix: "role_member"})
+    roleMember: RoleMember;
 
     @ManyToOne(() => Profile, p => p.classrooms)
     profile: Profile;
