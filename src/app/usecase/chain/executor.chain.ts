@@ -4,9 +4,13 @@ import { UuidGenerateService } from "../services/uuid-generate.service";
 
 export abstract class CommandExecutorChain implements CommandExecutor {
     
-    constructor(protected nextChain: CommandExecutor){}
+    protected nextChain: CommandExecutor
 
     abstract execute(command: BaseCommand): Promise<any>;
+    
+    set setNextChain(next: CommandExecutor){
+        this.nextChain = next;
+    }
 }
 
 export class UuidPrepareChain extends CommandExecutorChain {
