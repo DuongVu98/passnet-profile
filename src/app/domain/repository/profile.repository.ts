@@ -13,7 +13,7 @@ export class ProfileEntityRepository {
 	}
 
 	findById(id: string): Promise<Profile> {
-		return this.profileRepository.findOne({ id: id });
+		return this.profileRepository.findOne({ id: id }, { relations: ["experiences", "classrooms"] });
 	}
 
 	findByUserId(userId: UserId): Promise<Profile> {

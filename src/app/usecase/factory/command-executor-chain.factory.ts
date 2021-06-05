@@ -12,8 +12,8 @@ export class CommandExecutorChainFactory {
 		const chain = Builder(UuidPrepareChain)
 			.uuidGenerator(this.uuidGenerateService)
 			.build();
-        chain.setNextChain = commandExecutor;
+		chain.setNextChain = commandExecutor;
 
-        return chain;
-    }
+		return chain;
+	}
 }

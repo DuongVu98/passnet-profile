@@ -3,6 +3,7 @@ import { Builder } from "builder-pattern";
 import { Experience } from "src/app/domain/aggregate/entities";
 import { Course, Description, Semester } from "src/app/domain/aggregate/value-objects";
 import { AddExperienceCommand, BaseCommand } from "src/app/domain/commands/commands";
+import { ProfileNotFoundException } from "src/app/domain/exception/exceptions";
 import { ProfileEntityRepository } from "src/app/domain/repository/profile.repository";
 import { CommandExecutor } from "./command.executor";
 
@@ -15,6 +16,7 @@ export class AddExperienceCommandExecutor implements CommandExecutor {
 		if (command instanceof AddExperienceCommand) {
 			return this.profileRepository
 				.findById(command.aggregateId)
+				.then(profile => this.exists(profile))
 				.then(profile => {
 					const newExperience = Builder(Experience)
 						.profile(profile)
@@ -33,5 +35,9 @@ export class AddExperienceCommandExecutor implements CommandExecutor {
 		} else {
 			return Promise.reject();
 		}
+	}
+
+	private exists(value: any): Promise<any> {
+		return value != null ? Promise.resolve(value) : Promise.reject(new ProfileNotFoundException());
 	}
 }

@@ -2,6 +2,24 @@ import { HttpException, HttpStatus } from "@nestjs/common";
 
 export class ExecutorNotProvidedException extends HttpException {
 	constructor() {
-		super("Executor not provided", HttpStatus.INTERNAL_SERVER_ERROR);
+		super("ExecutorNotProvidedException: Executor not provided", HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+}
+
+export class ProfileNotFoundException extends HttpException {
+	constructor() {
+		super("Profile not found", HttpStatus.NOT_FOUND);
+	}
+}
+
+export class ExperienceNotExistInProfile extends HttpException {
+	constructor() {
+		super("Experience not exist in this profile", HttpStatus.BAD_REQUEST);
+	}
+}
+
+export class ExperienceNotFoundException extends HttpException {
+	constructor() {
+		super("Experience not found", HttpStatus.NOT_FOUND);
 	}
 }

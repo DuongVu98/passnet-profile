@@ -14,10 +14,11 @@ export class CommandGateway {
 	}
 
 	private getExecutorChain(command: BaseCommand, commandExecutor: CommandExecutor): CommandExecutor {
-		if (command instanceof AddExperienceCommand) {
-			return this.commandExecutorChainFactory.produceUuidPrepairChain(commandExecutor);
-		} else {
-			return commandExecutor;
-		}
+		// if (command instanceof AddExperienceCommand) {
+		// 	return this.commandExecutorChainFactory.produceUuidPrepairChain(commandExecutor);
+		// } else {
+		// 	return commandExecutor;
+		// }
+		return commandExecutor;
 	}
 }
