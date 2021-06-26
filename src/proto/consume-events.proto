@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+option java_package = "com.cseiu.passnet.saga.profilesaga";
+
+package consumeEvents;
+
+service EventConsumerRpc {
+    rpc ConsumeUserRegisteredEvent (UserRegisteredEventProtobuf) returns (ServiceResponseProtobuf) {}
+}
+
+service CompensatingExecutor {
+    rpc Rollback(EventIdProtobuf) returns (ServiceResponseProtobuf) {}
+}
+
+message EventIdProtobuf {
+    string eventId = 1;
+}
+
+message UserRegisteredEventProtobuf {
+    string eventId = 1;
+    string userId = 2;
+    string username = 3;
+    string email = 4;
+    string firstName = 5;
+    string lastName = 6;
+}
+
+message ServiceResponseProtobuf {
+    string message = 1;
+}
