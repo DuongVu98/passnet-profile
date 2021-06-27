@@ -37,15 +37,14 @@ export class EventConsumerGrpc {
 			.userId(event.userId)
 			.build();
 
-		// return this.consumeGateway
-		// 	.send(command)
-		// 	.then(() => {
-		// 		return { message: successMessage };
-		// 	})
-		// 	.catch(error => {
-		// 		this.logger.error(`Error during consume event: ${error}`);
-		// 		return { message: failureMessage };
-		// 	});
-		return Promise.resolve({ message: failureMessage });
+		return this.consumeGateway
+			.send(command)
+			.then(() => {
+				return { message: successMessage };
+			})
+			.catch(error => {
+				this.logger.error(`Error during consume event: ${error}`);
+				return { message: failureMessage };
+			});
 	}
 }
