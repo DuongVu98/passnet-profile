@@ -8,15 +8,15 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { Classroom, Experience, Profile } from "./app/domain/aggregate/entities";
 import { DefaultNamingStrategy, NamingStrategyInterface } from "typeorm";
 import { snakeCase } from "lodash";
-import { AppConfigModule } from './app/config/config.module';
+import { AppConfigModule } from "./app/config/config.module";
 
 export class CustomNamingStrategy extends DefaultNamingStrategy implements NamingStrategyInterface {
 	columnName(propertyName: string, customName: string, embeddedPrefixes: string[]): string {
 		return snakeCase(embeddedPrefixes.concat(customName ? customName : propertyName).join("_"));
 	}
 }
-console.debug(`debug: db host - ${process.env.DATABASE_MYSQL_HOST}`)
-console.debug(`debug: db port - ${process.env.DATABASE_MYSQL_PORT}`)
+console.debug(`debug: db host - ${process.env.DATABASE_MYSQL_HOST}`);
+console.debug(`debug: db port - ${process.env.DATABASE_MYSQL_PORT}`);
 @Module({
 	imports: [
 		TypeOrmModule.forRoot({
@@ -29,7 +29,7 @@ console.debug(`debug: db port - ${process.env.DATABASE_MYSQL_PORT}`)
 			entities: [Profile, Classroom, Experience],
 			synchronize: true,
 			namingStrategy: new CustomNamingStrategy(),
-            keepConnectionAlive: true
+			keepConnectionAlive: true,
 		}),
 		DomainModule,
 		UsecaseModule,
