@@ -1,11 +1,11 @@
 import { Injectable } from "@nestjs/common";
-import { BaseCommand } from "src/app/domain/commands/commands";
+import { BaseCommand, CreateProfileCommand } from "src/app/domain/commands/commands";
 import { CommandExecutor } from "src/app/usecase/command-executor/command.executor";
 import { CommandExecutorChainFactory } from "src/app/usecase/factory/command-executor-chain.factory";
 import { CommandExecutorFactory } from "src/app/usecase/factory/command-executor.factory";
 
 @Injectable()
-export class CommandGateway {
+export class EventConsumeGateway {
 	constructor(private commandExecutorFactory: CommandExecutorFactory, private commandExecutorChainFactory: CommandExecutorChainFactory) {}
 
 	send(command: BaseCommand): Promise<any> {
@@ -14,6 +14,9 @@ export class CommandGateway {
 	}
 
 	private getExecutorChain(command: BaseCommand, commandExecutor: CommandExecutor): CommandExecutor {
+		if (command instanceof CreateProfileCommand) {
+			return this.commandExecutorChainFactory.produceUuidPrepairChain(commandExecutor);
+		}
 		return commandExecutor;
 	}
 }
