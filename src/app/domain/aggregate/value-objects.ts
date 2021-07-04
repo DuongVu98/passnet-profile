@@ -9,6 +9,15 @@ export class UserId {
 	}
 }
 
+export class Username {
+	@Column()
+	value: string;
+
+	constructor(value: string) {
+		this.value = value;
+	}
+}
+
 export class FullName {
 	@Column()
 	value: string;

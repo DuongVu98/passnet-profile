@@ -33,6 +33,7 @@ export class EventConsumerGrpc {
 		const command = Builder(CreateProfileCommand)
 			.email(event.email)
 			.fullName(`${event.firstName} ${event.lastName}`)
+			.username(event.username)
 			.phoneNumber("")
 			.userId(event.userId)
 			.build();

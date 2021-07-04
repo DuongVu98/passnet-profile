@@ -6,6 +6,7 @@ export class CreateProfileCommand extends BaseCommand {
 	fullName: string;
 	phoneNumber: string;
 	email: string;
+	username: string;
 	userId: string;
 }
 

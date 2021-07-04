@@ -23,3 +23,9 @@ export class ExperienceNotFoundException extends HttpException {
 		super("Experience not found", HttpStatus.NOT_FOUND);
 	}
 }
+
+export class UsernameAlreadyRegisteredException extends HttpException {
+	constructor() {
+		super("username has been already registered", HttpStatus.BAD_REQUEST);
+	}
+}

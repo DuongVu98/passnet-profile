@@ -1,5 +1,17 @@
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { ClassroomId, Course, Description, Email, FullName, Overview, PhoneNumber, RoleMember, Semester, UserId } from "./value-objects";
+import {
+	ClassroomId,
+	Course,
+	Description,
+	Email,
+	FullName,
+	Overview,
+	PhoneNumber,
+	RoleMember,
+	Semester,
+	UserId,
+	Username,
+} from "./value-objects";
 
 @Entity({ name: "profile" })
 export class Profile {
@@ -8,6 +20,9 @@ export class Profile {
 
 	@Column(() => UserId, { prefix: "user_id" })
 	userId: UserId;
+
+	@Column(() => Username, { prefix: "username" })
+	username: Username;
 
 	@Column(() => FullName, { prefix: "full_name" })
 	fullName: FullName;
