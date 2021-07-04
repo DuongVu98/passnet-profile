@@ -11,7 +11,10 @@ const grpcOptions = {
 	options: {
 		url: process.env.GRPC_OPTION_URL,
 		package: process.env.GRPC_OPTION_PACKAGE,
-		protoPath: join(__dirname, process.env.PROTOBUF_CONSUME_EVENTS_PATH),
+		protoPath:
+			process.env.NODE_ENV === "development"
+				? join(__dirname, process.env.PROTOBUF_CONSUME_EVENTS_PATH)
+				: process.env.PROTOBUF_CONSUME_EVENTS_PATH,
 	},
 };
 
@@ -23,7 +26,7 @@ async function bootstrap() {
 
 	const grpcApp = await NestFactory.createMicroservice(AppModule, grpcOptions);
 
-	await app.listen(3000);
+	await app.listen(port);
 	grpcApp.listen(() => console.log(`env: ${process.env.NODE_ENV}`));
 }
 bootstrap();

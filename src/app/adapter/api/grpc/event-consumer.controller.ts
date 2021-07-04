@@ -1,4 +1,4 @@
-import { Controller, Logger } from "@nestjs/common";
+import { Controller, Logger, UseInterceptors } from "@nestjs/common";
 import { GrpcMethod } from "@nestjs/microservices";
 import { Builder } from "builder-pattern";
 import { CreateProfileCommand } from "src/app/domain/commands/commands";

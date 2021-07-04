@@ -1,0 +1,8 @@
+version: "3.8"
+
+services:
+    passnet-profile:
+        image: tony16019/passnet-profile:latest
+        build:
+            context: ..
+            dockerfile: docker/Dockerfile

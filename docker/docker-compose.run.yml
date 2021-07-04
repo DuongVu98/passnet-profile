@@ -1,0 +1,37 @@
+version: "3.8"
+
+services:
+    passnet-profile:
+        image: tony16019/passnet-profile:latest
+        container_name: passnet-profile
+        environment:
+            - ENV_PATH=env
+            - NODE_ENV=production
+            - SERVER_PORT_LISTENER=8081
+            - DATABASE_MYSQL_HOST=local-mysql-server
+            - DATABASE_MYSQL_PORT=3306
+            - DATABASE_MYSQL_USERNAME=passnet_profile_app
+            - DATABASE_MYSQL_PASSWORD=tungduong98
+            - DATABASE_MYSQL_DBNAME=passnet_profile_db
+            - GRPC_OPTION_URL=localhost:7071
+            - GRPC_OPTION_PACKAGE=consumeEvents
+            - PROTOBUF_CONSUME_EVENTS_PATH=/proto/consume-events.proto
+        ports:
+            - "8081:8081"
+            - "7071:7071"
+        depends_on:
+            - local-mysql-server
+    local-mysql-server:
+        image: mysql:5.7
+        container_name: local-mysql-server
+        environment:
+            - MYSQL_ROOT_PASSWORD=root
+            - MYSQL_DATABASE=passnet_profile_db
+            - MYSQL_USER=passnet_profile_app
+            - MYSQL_PASSWORD=tungduong98
+        ports:
+            - "3306:3306"
+        volumes:
+            - mysqlvolume:/var/lib/mysql
+volumes:
+    mysqlvolume: {}
