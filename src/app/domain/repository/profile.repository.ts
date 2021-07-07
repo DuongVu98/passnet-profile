@@ -17,7 +17,7 @@ export class ProfileEntityRepository {
 	}
 
 	findByUserId(userId: UserId): Promise<Profile> {
-		return this.profileRepository.findOne({ userId: userId });
+		return this.profileRepository.findOne({ userId: userId }, { relations: ["experiences", "classrooms"] });
 	}
 
 	findByEmail(email: Email): Promise<Profile> {
