@@ -1,12 +1,16 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
-import { Profile } from "../aggregate/entities";
+import { Profile, StudentProfile, TeacherProfile } from "../aggregate/entities";
 import { Email, UserId, Username } from "../aggregate/value-objects";
 
 @Injectable()
 export class ProfileEntityRepository {
-	constructor(@InjectRepository(Profile) private readonly profileRepository: Repository<Profile>) {}
+	constructor(
+		@InjectRepository(Profile) private readonly profileRepository: Repository<Profile>,
+		@InjectRepository(StudentProfile) private readonly studentProfileRepository: Repository<StudentProfile>,
+		@InjectRepository(TeacherProfile) private readonly teacherProfileRepository: Repository<TeacherProfile>,
+	) {}
 
 	findAll(): Promise<Profile[]> {
 		return this.profileRepository.find();
@@ -29,7 +33,13 @@ export class ProfileEntityRepository {
 	}
 
 	save(profile: Profile): Promise<Profile> {
-		return this.profileRepository.save(profile);
+		if (profile instanceof StudentProfile) {
+			return this.studentProfileRepository.save(profile);
+		} else if (profile instanceof TeacherProfile) {
+			return this.teacherProfileRepository.save(profile);
+		} else {
+			return this.profileRepository.save(profile);
+		}
 	}
 
 	update(id: string, profile: Profile): Promise<Profile> {

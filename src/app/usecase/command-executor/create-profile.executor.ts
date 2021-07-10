@@ -1,6 +1,6 @@
 import { Logger } from "@nestjs/common";
 import { Builder } from "builder-pattern";
-import { Profile } from "src/app/domain/aggregate/entities";
+import { Profile, StudentProfile, TeacherProfile } from "src/app/domain/aggregate/entities";
 import { Email, FullName, Overview, PhoneNumber, UserId, Username } from "src/app/domain/aggregate/value-objects";
 import { BaseCommand, CreateProfileCommand } from "src/app/domain/commands/commands";
 import { UsernameAlreadyRegisteredException } from "src/app/domain/exception/exceptions";
@@ -26,17 +26,7 @@ export class CreateProfileCommandExecutor implements CommandExecutor {
 					}
 				})
 				.then(() => {
-					const newProfile = Builder(Profile)
-						.id(command.aggregateId)
-						.fullName(new FullName(command.fullName))
-						.email(new Email(command.email))
-						.phoneNumber(new PhoneNumber(command.phoneNumber))
-						.userId(new UserId(command.userId))
-						.overview(new Overview(""))
-						.username(new Username(command.username))
-						.classrooms([])
-						.experiences([])
-						.build();
+					const newProfile = this.profileToCreate(command.profileRole, command);
 
 					return this.profileRepository.save(newProfile).then(profile => {
 						this.logger.log(`Profile created: ${profile.id}`);
@@ -44,6 +34,33 @@ export class CreateProfileCommandExecutor implements CommandExecutor {
 				});
 		} else {
 			return Promise.reject();
+		}
+	}
+
+	private profileToCreate(role: string, command: CreateProfileCommand): Profile {
+		switch (role) {
+			case "STUDENT":
+				return Builder(StudentProfile)
+					.id(command.aggregateId)
+					.fullName(new FullName(command.fullName))
+					.email(new Email(command.email))
+					.phoneNumber(new PhoneNumber(command.phoneNumber))
+					.userId(new UserId(command.userId))
+					.overview(new Overview(""))
+					.username(new Username(command.username))
+					.classrooms([])
+					.experiences([])
+					.build();
+			case "TEACHER":
+				return Builder(TeacherProfile)
+					.id(command.aggregateId)
+					.fullName(new FullName(command.fullName))
+					.email(new Email(command.email))
+					.phoneNumber(new PhoneNumber(command.phoneNumber))
+					.userId(new UserId(command.userId))
+					.username(new Username(command.username))
+					.classrooms([])
+					.build();
 		}
 	}
 }

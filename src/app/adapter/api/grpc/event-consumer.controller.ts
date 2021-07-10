@@ -1,4 +1,4 @@
-import { Controller, Logger, UseInterceptors } from "@nestjs/common";
+import { Controller, Logger } from "@nestjs/common";
 import { GrpcMethod } from "@nestjs/microservices";
 import { Builder } from "builder-pattern";
 import { CreateProfileCommand } from "src/app/domain/commands/commands";
@@ -11,6 +11,7 @@ interface UserRegisteredEventProtobuf {
 	email: string;
 	firstName: string;
 	lastName: string;
+	profileRole: string;
 }
 
 interface ServiceResponseProtobuf {
@@ -36,6 +37,7 @@ export class EventConsumerGrpc {
 			.username(event.username)
 			.phoneNumber("")
 			.userId(event.userId)
+			.profileRole(event.profileRole)
 			.build();
 
 		return this.consumeGateway

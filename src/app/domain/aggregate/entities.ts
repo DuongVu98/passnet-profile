@@ -1,5 +1,6 @@
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { ChildEntity, Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, TableInheritance } from "typeorm";
 import {
+	CardId,
 	ClassroomId,
 	Course,
 	Description,
@@ -14,6 +15,7 @@ import {
 } from "./value-objects";
 
 @Entity({ name: "profile" })
+@TableInheritance({ column: { type: "varchar", name: "type" } })
 export class Profile {
 	@PrimaryGeneratedColumn("uuid")
 	id: string;
@@ -33,15 +35,25 @@ export class Profile {
 	@Column(() => Email, { prefix: "email" })
 	email: Email;
 
-	@Column(() => Overview, { prefix: "overview" })
-	overview: Overview;
-
 	@OneToMany(
 		() => Classroom,
 		c => c.profile,
 		{ cascade: ["insert", "remove", "update"] },
 	)
 	classrooms: Classroom[];
+
+	containClassroom(classroomToCheck: Classroom): boolean {
+		return this.classrooms.some(classroom => classroom.id === classroomToCheck.id);
+	}
+}
+
+@ChildEntity({ type: "student_profile" })
+export class StudentProfile extends Profile {
+	@Column(() => CardId, { prefix: "card_id" })
+	cardId: CardId;
+
+	@Column(() => Overview, { prefix: "overview" })
+	overview: Overview;
 
 	@OneToMany(
 		() => Experience,
@@ -50,14 +62,13 @@ export class Profile {
 	)
 	experiences: Experience[];
 
-	containClassroom(classroomToCheck: Classroom): boolean {
-		return this.classrooms.some(classroom => classroom.id === classroomToCheck.id);
-	}
-
 	containExperience(experienceToCheck: Experience): boolean {
 		return this.experiences.some(experience => experience.id === experienceToCheck.id);
 	}
 }
+
+@ChildEntity({ type: "teacher_profile" })
+export class TeacherProfile extends Profile {}
 
 @Entity({ name: "classroom" })
 export class Classroom {
@@ -92,7 +103,7 @@ export class Experience {
 	description: Description;
 
 	@ManyToOne(
-		() => Profile,
+		() => StudentProfile,
 		p => p.experiences,
 	)
 	profile: Profile;

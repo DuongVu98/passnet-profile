@@ -8,6 +8,7 @@ export class CreateProfileCommand extends BaseCommand {
 	email: string;
 	username: string;
 	userId: string;
+	profileRole: string;
 }
 
 export class UpdateProfileCommand extends BaseCommand {

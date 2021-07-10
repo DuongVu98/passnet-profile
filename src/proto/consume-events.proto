@@ -23,6 +23,7 @@ message UserRegisteredEventProtobuf {
     string email = 4;
     string firstName = 5;
     string lastName = 6;
+    string profileRole = 7;
 }
 
 message ServiceResponseProtobuf {

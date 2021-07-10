@@ -5,9 +5,12 @@ export class ProfileView {
 	fullName: string;
 	email: string;
 	phoneNumber: string;
-	overview: string;
 	classroomIds: string[];
-	experienceIds: string[];
+	student?: {
+		overview: string;
+		experienceIds: string[];
+	};
+	teacher?: any;
 }
 
 export class ExperienceView {

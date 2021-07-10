@@ -1,9 +1,9 @@
 import { Logger } from "@nestjs/common";
 import { Builder } from "builder-pattern";
-import { Experience } from "src/app/domain/aggregate/entities";
+import { Experience, StudentProfile } from "src/app/domain/aggregate/entities";
 import { Course, Description, Semester } from "src/app/domain/aggregate/value-objects";
 import { AddExperienceCommand, BaseCommand } from "src/app/domain/commands/commands";
-import { ProfileNotFoundException } from "src/app/domain/exception/exceptions";
+import { ProfileNotCompatibleType, ProfileNotFoundException } from "src/app/domain/exception/exceptions";
 import { ProfileEntityRepository } from "src/app/domain/repository/profile.repository";
 import { CommandExecutor } from "./command.executor";
 
@@ -30,14 +30,20 @@ export class AddExperienceCommandExecutor implements CommandExecutor {
 				})
 				.then(profile => {
 					this.logger.log(`profile updated for profile ${profile.id}`);
-					this.logger.log(`Experience added - number of experiences: ${profile.experiences.length}`);
+					this.logger.log(`Experience added - number of experiences: ${(<StudentProfile>profile).experiences.length}`);
 				});
 		} else {
 			return Promise.reject();
 		}
 	}
 
-	private exists(value: any): Promise<any> {
-		return value != null ? Promise.resolve(value) : Promise.reject(new ProfileNotFoundException());
+	private exists(value: any): Promise<StudentProfile> {
+		if (value == null) {
+			return Promise.reject(new ProfileNotFoundException());
+		} else if (value instanceof StudentProfile) {
+			return Promise.resolve(value);
+		} else {
+			return Promise.reject(new ProfileNotCompatibleType());
+		}
 	}
 }

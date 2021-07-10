@@ -12,6 +12,12 @@ export class ProfileNotFoundException extends HttpException {
 	}
 }
 
+export class ProfileNotCompatibleType extends HttpException {
+	constructor() {
+		super("Profile not compatible type", HttpStatus.BAD_REQUEST);
+	}
+}
+
 export class ExperienceNotExistInProfile extends HttpException {
 	constructor() {
 		super("Experience not exist in this profile", HttpStatus.BAD_REQUEST);
