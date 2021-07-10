@@ -9,3 +9,9 @@ export class ProfileView {
 	classroomIds: string[];
 	experienceIds: string[];
 }
+
+export class ExperienceView {
+	course: string;
+	semester: string;
+	description: string;
+}

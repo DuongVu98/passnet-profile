@@ -1,8 +1,9 @@
 import { Injectable, Logger } from "@nestjs/common";
 import { Builder } from "builder-pattern";
+import { Experience } from "src/app/domain/aggregate/entities";
 import { UserId } from "src/app/domain/aggregate/value-objects";
 import { ProfileEntityRepository } from "src/app/domain/repository/profile.repository";
-import { ProfileView } from "src/app/domain/view/views";
+import { ExperienceView, ProfileView } from "src/app/domain/view/views";
 
 @Injectable()
 export class ViewProjector {
@@ -37,6 +38,18 @@ export class ViewProjector {
 				.classroomIds(profile.classrooms.map(classroom => classroom.id))
 				.experienceIds(profile.experiences.map(experience => experience.id))
 				.build();
+		});
+	}
+
+	getExperienceByProfile(profileId: string): Promise<ExperienceView[]> {
+		return this.profileRepository.findById(profileId).then(profile => {
+			return profile.experiences.map(experience => {
+				return Builder(ExperienceView)
+					.course(experience.course.value)
+					.description(experience.description.value)
+					.semester(experience.semester.value)
+					.build();
+			});
 		});
 	}
 }
