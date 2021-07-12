@@ -15,6 +15,10 @@ export class ProfileView {
 }
 
 export class ExperienceView {
+	profile: {
+		profileId: string;
+		email: string;
+	};
 	course: string;
 	semester: string;
 	description: string;

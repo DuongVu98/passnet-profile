@@ -30,6 +30,10 @@ export class ViewProjector {
 			if (profile instanceof StudentProfile) {
 				return profile.experiences.map(experience => {
 					return Builder(ExperienceView)
+						.profile({
+							profileId: profileId,
+							email: profile.email.value,
+						})
 						.course(experience.course.value)
 						.description(experience.description.value)
 						.semester(experience.semester.value)
