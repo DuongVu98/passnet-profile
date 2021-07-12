@@ -1,6 +1,6 @@
 import { Logger } from "@nestjs/common";
 import { Builder } from "builder-pattern";
-import { Experience, StudentProfile } from "src/app/domain/aggregate/entities";
+import { Experience, Profile, StudentProfile, TeacherProfile } from "src/app/domain/aggregate/entities";
 import { Course, Description, Semester } from "src/app/domain/aggregate/value-objects";
 import { AddExperienceCommand, BaseCommand } from "src/app/domain/commands/commands";
 import { ProfileNotCompatibleType, ProfileNotFoundException } from "src/app/domain/exception/exceptions";

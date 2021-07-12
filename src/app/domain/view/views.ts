@@ -9,6 +9,7 @@ export class ProfileView {
 	student?: {
 		overview: string;
 		experienceIds: string[];
+		cardId: string;
 	};
 	teacher?: any;
 }

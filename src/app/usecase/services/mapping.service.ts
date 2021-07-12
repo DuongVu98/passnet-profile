@@ -19,6 +19,7 @@ export class ProfileMapper {
 				.student({
 					overview: this.profile.overview.value,
 					experienceIds: this.profile.experiences.map(experience => experience.id),
+					cardId: this.profile.cardId.value,
 				})
 				.build();
 		} else if (this.profile instanceof TeacherProfile) {

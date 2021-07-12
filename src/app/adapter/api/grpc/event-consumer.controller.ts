@@ -40,6 +40,7 @@ export class EventConsumerGrpc {
 			.profileRole(event.profileRole)
 			.build();
 
+		this.logger.debug(`debug create profile command: ${JSON.stringify(command)}`);
 		return this.consumeGateway
 			.send(command)
 			.then(() => {

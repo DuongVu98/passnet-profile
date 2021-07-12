@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, Logger } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Profile, StudentProfile, TeacherProfile } from "../aggregate/entities";
@@ -6,6 +6,8 @@ import { Email, UserId, Username } from "../aggregate/value-objects";
 
 @Injectable()
 export class ProfileEntityRepository {
+	logger: Logger = new Logger("ProfileEntityRepository");
+
 	constructor(
 		@InjectRepository(Profile) private readonly profileRepository: Repository<Profile>,
 		@InjectRepository(StudentProfile) private readonly studentProfileRepository: Repository<StudentProfile>,
@@ -13,23 +15,47 @@ export class ProfileEntityRepository {
 	) {}
 
 	findAll(): Promise<Profile[]> {
-		return this.profileRepository.find();
+		return this.studentProfileRepository.find();
 	}
 
 	findById(id: string): Promise<Profile> {
-		return this.profileRepository.findOne({ id: id }, { relations: ["experiences", "classrooms"] });
+		return this.studentProfileRepository.findOne({ id: id }, { relations: ["experiences", "classrooms"] }).then(result => {
+			if (result != null) {
+				return result;
+			} else {
+				return this.teacherProfileRepository.findOne({ id: id }, { relations: ["classrooms"] });
+			}
+		});
 	}
 
 	findByUserId(userId: UserId): Promise<Profile> {
-		return this.profileRepository.findOne({ userId: userId }, { relations: ["experiences", "classrooms"] });
+		return this.studentProfileRepository.findOne({ userId: userId }, { relations: ["experiences", "classrooms"] }).then(result => {
+			if (result != null) {
+				return result;
+			} else {
+				return this.teacherProfileRepository.findOne({ userId: userId }, { relations: ["classrooms"] });
+			}
+		});
 	}
 
 	findByEmail(email: Email): Promise<Profile> {
-		return this.profileRepository.findOne({ email: email });
+		return this.studentProfileRepository.findOne({ email: email }, { relations: ["experiences", "classrooms"] }).then(result => {
+			if (result != null) {
+				return result;
+			} else {
+				return this.teacherProfileRepository.findOne({ email: email }, { relations: ["classrooms"] });
+			}
+		});
 	}
 
 	findByUsername(username: Username): Promise<Profile> {
-		return this.profileRepository.findOne({ username: username });
+		return this.studentProfileRepository.findOne({ username: username }, { relations: ["experiences", "classrooms"] }).then(result => {
+			if (result != null) {
+				return result;
+			} else {
+				return this.teacherProfileRepository.findOne({ username: username }, { relations: ["classrooms"] });
+			}
+		});
 	}
 
 	save(profile: Profile): Promise<Profile> {

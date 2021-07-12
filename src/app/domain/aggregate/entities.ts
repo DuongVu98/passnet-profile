@@ -47,7 +47,7 @@ export class Profile {
 	}
 }
 
-@ChildEntity({ type: "student_profile" })
+@ChildEntity()
 export class StudentProfile extends Profile {
 	@Column(() => CardId, { prefix: "card_id" })
 	cardId: CardId;
@@ -67,7 +67,7 @@ export class StudentProfile extends Profile {
 	}
 }
 
-@ChildEntity({ type: "teacher_profile" })
+@ChildEntity()
 export class TeacherProfile extends Profile {}
 
 @Entity({ name: "classroom" })

@@ -1,4 +1,5 @@
 import { Module } from "@nestjs/common";
+import { DomainModule } from "../domain/domain.module";
 import { UsecaseModule } from "../usecase/usecase.module";
 import { CompensatingGrpcController } from "./api/grpc/compensating.controller";
 import { EventConsumerGrpc } from "./api/grpc/event-consumer.controller";
@@ -11,6 +12,6 @@ import { EventConsumeGateway } from "./controller/consume.gateway";
 @Module({
 	controllers: [HomeController, ProfileController, EventConsumerGrpc, CompensatingGrpcController, QueryController],
 	providers: [CommandGateway, EventConsumeGateway],
-	imports: [UsecaseModule],
+	imports: [UsecaseModule, DomainModule],
 })
 export class AdapterModule {}
