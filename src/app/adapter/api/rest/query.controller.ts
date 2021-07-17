@@ -20,4 +20,9 @@ export class QueryController {
 	getExperiences(@Query("profileId") profileId: string): Promise<ExperienceView[]> {
 		return this.viewProjector.getExperienceByProfile(profileId);
 	}
+
+	@Get("profiles/:profileId/experiences/:expId")
+	getExperienceById(@Param("profileId") profileId: string, @Param("expId") expId: string): Promise<ExperienceView> {
+		return this.viewProjector.getExperienceById(expId, profileId);
+	}
 }

@@ -35,3 +35,9 @@ export class UsernameAlreadyRegisteredException extends HttpException {
 		super("username has been already registered", HttpStatus.BAD_REQUEST);
 	}
 }
+
+export class ProfileWrongRole extends HttpException {
+	constructor(public message: string) {
+		super(message, HttpStatus.FORBIDDEN);
+	}
+}

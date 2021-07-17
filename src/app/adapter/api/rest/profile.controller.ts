@@ -24,6 +24,7 @@ export class ProfileController {
 			.fullName(updateProfileRequest.fullName)
 			.overview(updateProfileRequest.overview)
 			.phoneNumber(updateProfileRequest.phoneNumber)
+			.cardId(updateProfileRequest.cardId)
 			.build();
 
 		return this.commandGateway.send(command);

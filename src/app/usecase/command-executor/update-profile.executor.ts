@@ -1,6 +1,6 @@
 import { Logger } from "@nestjs/common";
 import { Profile, StudentProfile } from "src/app/domain/aggregate/entities";
-import { Email, FullName, Overview, PhoneNumber } from "src/app/domain/aggregate/value-objects";
+import { CardId, Email, FullName, Overview, PhoneNumber } from "src/app/domain/aggregate/value-objects";
 import { BaseCommand, UpdateProfileCommand } from "src/app/domain/commands/commands";
 import { ProfileNotFoundException } from "src/app/domain/exception/exceptions";
 import { ProfileEntityRepository } from "src/app/domain/repository/profile.repository";
@@ -31,12 +31,15 @@ export class UpdateProfileCommandExecutor implements CommandExecutor {
 	}
 
 	private updateProfile(profile: Profile, command: UpdateProfileCommand): Profile {
-		profile.fullName = new FullName(command.fullName);
-		profile.phoneNumber = new PhoneNumber(command.phoneNumber);
-		profile.email = new Email(command.email);
-
 		if (profile instanceof StudentProfile) {
+			profile.fullName = new FullName(command.fullName);
+			profile.phoneNumber = new PhoneNumber(command.phoneNumber);
+			profile.email = new Email(command.email);
 			profile.overview = new Overview(command.overview);
+
+			if (profile instanceof StudentProfile) {
+				profile.cardId = new CardId(command.cardId);
+			}
 		}
 
 		return profile;

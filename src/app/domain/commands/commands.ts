@@ -13,6 +13,7 @@ export class CreateProfileCommand extends BaseCommand {
 
 export class UpdateProfileCommand extends BaseCommand {
 	fullName: string;
+	cardId: string;
 	phoneNumber: string;
 	email: string;
 	overview: string;

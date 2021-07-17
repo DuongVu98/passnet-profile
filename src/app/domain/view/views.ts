@@ -19,6 +19,7 @@ export class ExperienceView {
 		profileId: string;
 		email: string;
 	};
+	experienceId: string;
 	course: string;
 	semester: string;
 	description: string;

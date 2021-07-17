@@ -3,6 +3,7 @@ export class UpdateProfileForm {
 	email: string;
 	phoneNumber: string;
 	overview: string;
+	cardId?: string;
 }
 
 export class AddExperienceForm {
