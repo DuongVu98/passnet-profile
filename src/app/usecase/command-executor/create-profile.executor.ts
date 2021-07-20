@@ -1,13 +1,14 @@
 import { Logger } from "@nestjs/common";
 import { Builder } from "builder-pattern";
 import { Profile, StudentProfile, TeacherProfile } from "src/app/domain/aggregate/entities";
-import { Email, FullName, Overview, PhoneNumber, UserId, Username } from "src/app/domain/aggregate/value-objects";
+import { CardId, Email, FullName, Overview, PhoneNumber, UserId, Username } from "src/app/domain/aggregate/value-objects";
 import { BaseCommand, CreateProfileCommand } from "src/app/domain/commands/commands";
+import { BaseCompensating, CreateProfileCompensating } from "src/app/domain/commands/compensating";
 import { UsernameAlreadyRegisteredException } from "src/app/domain/exception/exceptions";
 import { ProfileEntityRepository } from "src/app/domain/repository/profile.repository";
-import { CommandExecutor } from "./command.executor";
+import { CommandExecutor, CompensatingHandler } from "./command.executor";
 
-export class CreateProfileCommandExecutor implements CommandExecutor {
+export class CreateProfileCommandExecutor implements CommandExecutor, CompensatingHandler {
 	logger: Logger = new Logger("CreateProfileCommandExecutor");
 
 	constructor(private profileRepository: ProfileEntityRepository) {}
@@ -37,6 +38,12 @@ export class CreateProfileCommandExecutor implements CommandExecutor {
 		}
 	}
 
+	reverse(compensating: BaseCompensating): Promise<any> {
+		if (compensating instanceof CreateProfileCompensating) {
+			return this.profileRepository.delete(compensating.profileId);
+		}
+	}
+
 	private profileToCreate(role: string, command: CreateProfileCommand): Profile {
 		switch (role) {
 			case "STUDENT":
@@ -48,6 +55,7 @@ export class CreateProfileCommandExecutor implements CommandExecutor {
 					.userId(new UserId(command.userId))
 					.overview(new Overview(""))
 					.username(new Username(command.username))
+					.cardId(new CardId(command.cardId))
 					.classrooms([])
 					.experiences([])
 					.build();

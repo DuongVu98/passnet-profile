@@ -41,3 +41,9 @@ export class ProfileWrongRole extends HttpException {
 		super(message, HttpStatus.FORBIDDEN);
 	}
 }
+
+export class CompensatingNotCompatible extends HttpException {
+	constructor() {
+		super("Compensating found not compatible type.", HttpStatus.BAD_GATEWAY);
+	}
+}

@@ -11,6 +11,9 @@ interface UserRegisteredEventProtobuf {
 	email: string;
 	firstName: string;
 	lastName: string;
+	organizationId: string;
+	departmentId: string;
+	cardId: string;
 	profileRole: string;
 }
 
@@ -37,7 +40,9 @@ export class EventConsumerGrpc {
 			.username(event.username)
 			.phoneNumber("")
 			.userId(event.userId)
+			.cardId(event.cardId)
 			.profileRole(event.profileRole)
+			.eventId(event.eventId)
 			.build();
 
 		this.logger.debug(`debug create profile command: ${JSON.stringify(command)}`);

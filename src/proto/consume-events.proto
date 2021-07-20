@@ -18,12 +18,15 @@ message EventIdProtobuf {
 
 message UserRegisteredEventProtobuf {
     string eventId = 1;
-    string userId = 2;
+    string uid = 2;
     string username = 3;
     string email = 4;
     string firstName = 5;
     string lastName = 6;
-    string profileRole = 7;
+    string organizationId = 7;
+    string departmentId = 8;
+    string cardId = 9;
+    string profileRole = 10;
 }
 
 message ServiceResponseProtobuf {

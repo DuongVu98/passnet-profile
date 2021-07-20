@@ -15,7 +15,9 @@ export class EventConsumeGateway {
 
 	private getExecutorChain(command: BaseCommand, commandExecutor: CommandExecutor): CommandExecutor {
 		if (command instanceof CreateProfileCommand) {
-			return this.commandExecutorChainFactory.produceUuidPrepairChain(commandExecutor);
+			return this.commandExecutorChainFactory.produceUuidPrepairChain(
+				this.commandExecutorChainFactory.produceCompensatingBackupChain(commandExecutor),
+			);
 		}
 		return commandExecutor;
 	}

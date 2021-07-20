@@ -1,5 +1,6 @@
 export class BaseCommand {
 	aggregateId: string;
+	eventId?: string;
 }
 
 export class CreateProfileCommand extends BaseCommand {
@@ -8,6 +9,7 @@ export class CreateProfileCommand extends BaseCommand {
 	email: string;
 	username: string;
 	userId: string;
+	cardId: string;
 	profileRole: string;
 }
 
