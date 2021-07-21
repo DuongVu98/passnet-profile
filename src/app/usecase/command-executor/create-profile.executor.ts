@@ -19,7 +19,7 @@ export class CreateProfileCommandExecutor implements CommandExecutor, Compensati
 				.findByUsername(new Username(command.username))
 				.then(result => {
 					if (result != null) {
-						this.logger.log("This username has been already registered");
+						this.logger.log(`This username: [${command.username}] has been already registered`);
 						return Promise.reject(new UsernameAlreadyRegisteredException());
 					} else {
 						this.logger.log("This username is new");

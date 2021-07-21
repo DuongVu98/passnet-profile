@@ -2,7 +2,12 @@ import { Injectable, Logger } from "@nestjs/common";
 import { Builder } from "builder-pattern";
 import { StudentProfile } from "src/app/domain/aggregate/entities";
 import { UserId } from "src/app/domain/aggregate/value-objects";
-import { ExperienceNotFoundException, ProfileNotCompatibleType, ProfileWrongRole } from "src/app/domain/exception/exceptions";
+import {
+	ExperienceNotFoundException,
+	ProfileNotCompatibleType,
+	ProfileNotFoundException,
+	ProfileWrongRole,
+} from "src/app/domain/exception/exceptions";
 import { ExperienceEntityRepository } from "src/app/domain/repository/experience.repository";
 import { ProfileEntityRepository } from "src/app/domain/repository/profile.repository";
 import { ExperienceView, ProfileView } from "src/app/domain/view/views";
@@ -22,7 +27,12 @@ export class ViewProjector {
 
 	getProfileByUid(uid: string): Promise<ProfileView> {
 		return this.profileRepository.findByUserId(new UserId(uid)).then(profile => {
-			return new ProfileMapper(profile).toProfileView();
+			if (profile != null) {
+				return new ProfileMapper(profile).toProfileView();
+			} else {
+				this.logger.error(`Profile with uid [${uid}] not found`);
+				throw new ProfileNotFoundException();
+			}
 		});
 	}
 

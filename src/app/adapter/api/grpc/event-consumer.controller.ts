@@ -6,7 +6,7 @@ import { EventConsumeGateway } from "../../controller/consume.gateway";
 
 interface UserRegisteredEventProtobuf {
 	eventId: string;
-	userId: string;
+	uid: string;
 	username: string;
 	email: string;
 	firstName: string;
@@ -39,7 +39,7 @@ export class EventConsumerGrpc {
 			.fullName(`${event.firstName} ${event.lastName}`)
 			.username(event.username)
 			.phoneNumber("")
-			.userId(event.userId)
+			.userId(event.uid)
 			.cardId(event.cardId)
 			.profileRole(event.profileRole)
 			.eventId(event.eventId)
