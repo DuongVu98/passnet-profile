@@ -21,17 +21,11 @@ export class UpdateProfileCommand extends BaseCommand {
 	overview: string;
 }
 
-/**
- * ClassroomId should be Id from classroom-service
- */
 export class JoinClassroomCommand extends BaseCommand {
 	classroomId: string;
 	roleMember: string;
 }
 
-/**
- * ClassroomId should be Id from classroom-service
- */
 export class LeaveClassroomCommand extends BaseCommand {
 	classroomId: string;
 }
@@ -51,4 +45,12 @@ export class EditExperienceCommand extends BaseCommand {
 
 export class RemoveExperienceCommand extends BaseCommand {
 	experienceId: string;
+}
+
+export class SaveJobCommand extends BaseCommand {
+	jobId: string;
+}
+
+export class UnSaveJobCommand extends BaseCommand {
+	jobId: string;
 }

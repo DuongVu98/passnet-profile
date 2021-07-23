@@ -24,3 +24,8 @@ export class ExperienceView {
 	semester: string;
 	description: string;
 }
+
+export class JobView {
+	id: string;
+	jobId: string;
+}

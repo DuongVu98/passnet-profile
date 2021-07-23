@@ -4,6 +4,8 @@ import {
 	AddExperienceCommand,
 	EditExperienceCommand,
 	RemoveExperienceCommand,
+	SaveJobCommand,
+	UnSaveJobCommand,
 	UpdateProfileCommand,
 } from "src/app/domain/commands/commands";
 import { AddExperienceForm, EditExperienceForm, UpdateProfileForm } from "src/app/domain/form/forms";
@@ -64,6 +66,30 @@ export class ProfileController {
 		const command = Builder(RemoveExperienceCommand)
 			.aggregateId(profileId)
 			.experienceId(experienceId)
+			.build();
+
+		return this.commandGateway.send(command);
+	}
+
+	@Post(":pid/save-job/:jobId")
+	saveNewJob(@Param("pid") profileId: string, @Param("jobId") jobId: string): Promise<any> {
+		this.logger.log(`receive save-job form for profile ${profileId} and jobId ${jobId}`);
+
+		const command = Builder(SaveJobCommand)
+			.aggregateId(profileId)
+			.jobId(jobId)
+			.build();
+
+		return this.commandGateway.send(command);
+	}
+
+	@Delete(":pid/unsave-job/:jobId")
+	unsaveNewJob(@Param("pid") profileId: string, @Param("jobId") jobId: string): Promise<any> {
+		this.logger.log(`receive save-job form for profile ${profileId} and jobId ${jobId}`);
+
+		const command = Builder(UnSaveJobCommand)
+			.aggregateId(profileId)
+			.jobId(jobId)
 			.build();
 
 		return this.commandGateway.send(command);

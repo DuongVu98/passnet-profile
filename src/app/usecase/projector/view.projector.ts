@@ -10,7 +10,7 @@ import {
 } from "src/app/domain/exception/exceptions";
 import { ExperienceEntityRepository } from "src/app/domain/repository/experience.repository";
 import { ProfileEntityRepository } from "src/app/domain/repository/profile.repository";
-import { ExperienceView, ProfileView } from "src/app/domain/view/views";
+import { ExperienceView, JobView, ProfileView } from "src/app/domain/view/views";
 import { ProfileMapper } from "../services/mapping.service";
 
 @Injectable()
@@ -86,5 +86,16 @@ export class ViewProjector {
 					.semester(experience.semester.value)
 					.build();
 			});
+	}
+
+	getSavedJobs(profileId: string): Promise<JobView[]> {
+		return this.profileRepository.findById(profileId).then(profile => {
+			return profile.savedJobs.map(job =>
+				Builder(JobView)
+					.jobId(job.jobId.value)
+					.id(job.id)
+					.build(),
+			);
+		});
 	}
 }

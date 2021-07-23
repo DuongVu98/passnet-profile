@@ -107,3 +107,21 @@ export class CardId {
 		this.value = value;
 	}
 }
+
+export class JobTitle {
+	@Column()
+	value: string;
+
+	constructor(value: string) {
+		this.value = value;
+	}
+}
+
+export class JobId {
+	@Column()
+	value: string;
+
+	constructor(value: string) {
+		this.value = value;
+	}
+}

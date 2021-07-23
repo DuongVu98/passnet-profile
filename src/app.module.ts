@@ -5,7 +5,7 @@ import { DomainModule } from "./app/domain/domain.module";
 import { UsecaseModule } from "./app/usecase/usecase.module";
 import { AdapterModule } from "./app/adapter/adapter.module";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { Classroom, Experience, Profile, StudentProfile, TeacherProfile } from "./app/domain/aggregate/entities";
+import { Classroom, Experience, Job, Profile, StudentProfile, TeacherProfile } from "./app/domain/aggregate/entities";
 import { DefaultNamingStrategy, NamingStrategyInterface } from "typeorm";
 import { snakeCase } from "lodash";
 import { AppConfigModule } from "./app/config/config.module";
@@ -25,7 +25,7 @@ export class CustomNamingStrategy extends DefaultNamingStrategy implements Namin
 			username: process.env.DATABASE_MYSQL_USERNAME,
 			password: process.env.DATABASE_MYSQL_PASSWORD,
 			database: process.env.DATABASE_MYSQL_DBNAME,
-			entities: [Profile, StudentProfile, TeacherProfile, Classroom, Experience],
+			entities: [Profile, StudentProfile, TeacherProfile, Classroom, Experience, Job],
 			synchronize: process.env.NODE_ENV === "development" ? true : false,
 			namingStrategy: new CustomNamingStrategy(),
 			keepConnectionAlive: true,

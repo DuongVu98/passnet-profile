@@ -1,5 +1,5 @@
 import { Controller, Get, Param, Query } from "@nestjs/common";
-import { ExperienceView, ProfileView } from "src/app/domain/view/views";
+import { ExperienceView, JobView, ProfileView } from "src/app/domain/view/views";
 import { ViewProjector } from "src/app/usecase/projector/view.projector";
 
 @Controller("api/query")
@@ -18,11 +18,16 @@ export class QueryController {
 
 	@Get("experiences")
 	getExperiences(@Query("profileId") profileId: string): Promise<ExperienceView[]> {
-		return this.viewProjector.getExperienceByProfile(profileId);
+		return this.viewProjector.getExperienceByProfile(profileId).catch(error => []);
 	}
 
 	@Get("profiles/:profileId/experiences/:expId")
 	getExperienceById(@Param("profileId") profileId: string, @Param("expId") expId: string): Promise<ExperienceView> {
 		return this.viewProjector.getExperienceById(expId, profileId);
+	}
+
+	@Get("profiles/:id/saved-jobs")
+	getSavedJobs(@Param("id") profileId: string): Promise<JobView[]> {
+		return this.viewProjector.getSavedJobs(profileId);
 	}
 }

@@ -6,6 +6,8 @@ import {
 	Description,
 	Email,
 	FullName,
+	JobId,
+	JobTitle,
 	Overview,
 	PhoneNumber,
 	RoleMember,
@@ -36,6 +38,13 @@ export class Profile {
 	email: Email;
 
 	@OneToMany(
+		() => Job,
+		j => j.savedBy,
+		{ cascade: ["insert", "remove", "update"] },
+	)
+	savedJobs: Job[];
+
+	@OneToMany(
 		() => Classroom,
 		c => c.profile,
 		{ cascade: ["insert", "remove", "update"] },
@@ -44,6 +53,10 @@ export class Profile {
 
 	containClassroom(classroomToCheck: Classroom): boolean {
 		return this.classrooms.some(classroom => classroom.id === classroomToCheck.id);
+	}
+
+	saveJob(job: Job): void {
+		this.savedJobs.push(job);
 	}
 }
 
@@ -107,4 +120,19 @@ export class Experience {
 		p => p.experiences,
 	)
 	profile: Profile;
+}
+
+@Entity({ name: "job" })
+export class Job {
+	@PrimaryGeneratedColumn("uuid")
+	id: string;
+
+	@Column(() => JobId, { prefix: "job_id" })
+	jobId: JobId;
+
+	@ManyToOne(
+		() => Profile,
+		p => p.savedJobs,
+	)
+	savedBy: Profile;
 }
