@@ -26,7 +26,7 @@ export class CustomNamingStrategy extends DefaultNamingStrategy implements Namin
 			password: process.env.DATABASE_MYSQL_PASSWORD,
 			database: process.env.DATABASE_MYSQL_DBNAME,
 			entities: [Profile, StudentProfile, TeacherProfile, Classroom, Experience, Job],
-			synchronize: process.env.NODE_ENV === "development" ? true : false,
+			synchronize: true,
 			namingStrategy: new CustomNamingStrategy(),
 			keepConnectionAlive: true,
 		}),
